@@ -8,7 +8,7 @@ void main() {
     var config = new Lwjgl3ApplicationConfiguration();
     config.setWindowedMode(900, 600);
     config.useVsync(true);
-    config.setResizable(false);
+    config.setResizable(true);
     config.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
     new Lwjgl3Application(new GDXWindow(), config);
 }
