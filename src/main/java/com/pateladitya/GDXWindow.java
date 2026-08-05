@@ -33,8 +33,9 @@ public class GDXWindow extends ApplicationAdapter {
         stateTime = 0;
         atlas = new TextureAtlas(Gdx.files.internal("atlas/Player Atlas.atlas"));
         batch = new SpriteBatch();
-        animation = new Animation<>(0.1f, atlas.findRegions("run_left"), Animation.PlayMode.LOOP);
-        player = new Sprite(animation.getKeyFrame(0).getTexture());
+        animation = new Animation<>(0.1f, atlas.findRegions("idle"), Animation.PlayMode.LOOP);
+        player = new Sprite(animation.getKeyFrame(stateTime).getTexture());
+
         camera = new OrthographicCamera();
         viewport = new FitViewport(16, 14, camera);
         map = new TmxMapLoader().load("map/level_tilemap.tmx");
@@ -44,18 +45,19 @@ public class GDXWindow extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(Color.DARK_GRAY);
-        stateTime += Gdx.graphics.getDeltaTime();
+        this.update();
+        renderer.render();
         batch.begin();
-
-//        player.draw(batch);
-//        player.setRegion(animation.getKeyFrame(stateTime));
-//        player.flip(true, false);
-//        player.setBounds(0, 0, 100, 150);
+        player.draw(batch);
+        player.setRegion(animation.getKeyFrame(stateTime));
+        player.flip(true, false);
+        player.setBounds(0, 0, 100, 150);
+        batch.end();
+    }
+    private void update(){
+        stateTime += Gdx.graphics.getDeltaTime();
         camera.update();
         renderer.setView(camera);
-        renderer.render();
-
-        batch.end();
     }
 
     @Override
